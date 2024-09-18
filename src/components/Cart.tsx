@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom"
 import { Button } from "./ui/button"
 import { useEffect, useState } from "react";
+import { useStore } from "@/store/context";
 
 
 function Cart() {
-    const [cart, setCart] = useState([]);
+  const {cart,setCart}=useStore();
   const FREE_DELIVERY_THRESHOLD = 499;
 
   const calculateSubtotal = () => {
@@ -33,8 +34,7 @@ function Cart() {
     0
   );
   return (
-    <div className="border rounded-lg p-4">
-    <div className="flex flex-col gap-2">
+    <>
       <div className="flex justify-between text-md font-medium">
         <p>Subtotal:</p>
         <p>₹ {subtotal}</p>
@@ -52,11 +52,7 @@ function Cart() {
           Spend ₹ {amountNeededForFreeDelivery} more to get free delivery!
         </p>
       )}
-      <Button className="w-full ml-auto bg-black text-white" asChild>
-        <Link to="/checkout">Proceed to Checkout</Link>
-      </Button>
-    </div>
-  </div>
+  </>
   )
 }
 

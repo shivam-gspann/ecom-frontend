@@ -16,21 +16,29 @@ import {
   SheetTrigger,
 } from "./ui/sheet";
 import { NAV_LINKS } from "@/utils/constants";
+import { useStore } from "@/store/context";
 
 function Header() {
   const navigate = useNavigate();
-  const [cartQuantity, setCartQuantity] = useState(0);
+  const {cart} = useStore();
+  console.log(cart);
 
-  useEffect(() => {
-    const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
+  const cartQuantity=cart.reduce(
+    (acc, item) => acc + item.quantity,
+    0
+  );
+  // const [cartQuantity, setCartQuantity] = useState(0);
 
-    const totalQuantity = savedCart.reduce(
-      (acc, item) => acc + item.quantity,
-      0
-    );
+  // useEffect(() => {
+  //   const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    setCartQuantity(totalQuantity);
-  }, []);
+  //   const totalQuantity = savedCart.reduce(
+  //     (acc, item) => acc + item.quantity,
+  //     0
+  //   );
+
+  //   setCartQuantity(totalQuantity);
+  // }, []);
 
   return (
     <>
@@ -80,11 +88,9 @@ function Header() {
               onClick={() => navigate("/cart")}
               className="cursor-pointer"
             />
-            {cartQuantity > 0 && (
               <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-xs flex items-center justify-center rounded-full">
                 {cartQuantity}
               </div>
-            )}
           </div>
           <Sheet>
             <SheetTrigger asChild className="md:hidden">

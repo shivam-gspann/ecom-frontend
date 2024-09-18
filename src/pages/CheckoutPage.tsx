@@ -12,11 +12,13 @@ import {
 } from "@/utils/cart";
 import { FREE_DELIVERY_THRESHOLD } from "@/utils/constants";
 import Heading from "@/components/Heading";
+import { useStore } from "@/store/context";
+import Cart from "@/components/Cart";
 
 function CheckoutPage() {
   const navigate = useNavigate();
 
-  const [cart, setCart] = useState([]);
+  const { cart, setCart } = useStore();
 
   const subtotal = calculateSubtotal(cart);
   const shippingFee = calculateShippingFee(subtotal, FREE_DELIVERY_THRESHOLD);
@@ -57,11 +59,9 @@ function CheckoutPage() {
     navigate("/");
   };
 
-  useEffect(() => {
-    const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    setCart(savedCart);
-  }, []);
+  useEffect(()=>{
+    window.scrollTo(0,0)
+  },[])
 
   return (
     <>
@@ -97,24 +97,7 @@ function CheckoutPage() {
           </div>
           <div className="border rounded-lg p-4 my-12">
             <div className="flex flex-col gap-2">
-              <div className="flex justify-between text-md font-medium">
-                <p>Subtotal:</p>
-                <p>₹ {subtotal}</p>
-              </div>
-              <div className="flex justify-between text-md font-medium">
-                <p>Shipping Fee:</p>
-                <p>₹ {shippingFee}</p>
-              </div>
-              <div className="flex justify-between text-xl font-semibold">
-                <p>Total Price:</p>
-                <p>₹ {totalPrice}</p>
-              </div>
-              {amountNeededForFreeDelivery > 0 && (
-                <p className="text-yellow-700 text-center">
-                  Spend ₹ {amountNeededForFreeDelivery} more to get free
-                  delivery!
-                </p>
-              )}
+              <Cart />
               <Button
                 className="w-full ml-auto bg-black text-white"
                 onClick={handlePlaceOrder}

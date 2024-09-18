@@ -1,5 +1,7 @@
+import Cart from "@/components/Cart";
 import Heading from "@/components/Heading";
 import { Button } from "@/components/ui/button";
+import { useStore } from "@/store/context";
 import {
   calculateShippingFee,
   calculateSubtotal,
@@ -12,7 +14,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function CartPage() {
-  const [cart, setCart] = useState([]);
+  const { cart, setCart } = useStore();
 
   const subtotal = calculateSubtotal(cart);
   const shippingFee = calculateShippingFee(subtotal, FREE_DELIVERY_THRESHOLD);
@@ -109,26 +111,9 @@ function CartPage() {
           <div className="my-12 flex">
             <Heading first={"CART"} second={"SUMMARY"} />
           </div>
-          <div className="border rounded-lg p-4">
+          <div className="border rounded-lg p-4 my-12">
             <div className="flex flex-col gap-2">
-              <div className="flex justify-between text-md font-medium">
-                <p>Subtotal:</p>
-                <p>₹ {subtotal}</p>
-              </div>
-              <div className="flex justify-between text-md font-medium">
-                <p>Shipping Fee:</p>
-                <p>₹ {shippingFee}</p>
-              </div>
-              <div className="flex justify-between text-xl font-semibold">
-                <p>Total Price:</p>
-                <p>₹ {totalPrice}</p>
-              </div>
-              {amountNeededForFreeDelivery > 0 && (
-                <p className=" text-yellow-700 text-center">
-                  Spend ₹ {amountNeededForFreeDelivery} more to get free
-                  delivery!
-                </p>
-              )}
+              <Cart />
               <Button className="w-full ml-auto bg-black text-white" asChild>
                 <Link to="/checkout">Proceed to Checkout</Link>
               </Button>

@@ -1,5 +1,6 @@
 import Heading from "@/components/Heading";
 import { Button } from "@/components/ui/button";
+import { useStore } from "@/store/context";
 import { PRODUCTS } from "@/utils/data";
 import { Star } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -8,10 +9,11 @@ import { toast } from "sonner";
 
 function ProductPage() {
   const { _id } = useParams();
+  const { cart, setCart } = useStore();
+
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [selectedSize, setSelectedSize] = useState(null);
-  const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const handleAddToCart = () => {
