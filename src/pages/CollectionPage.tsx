@@ -122,7 +122,7 @@ function CollectionPage() {
             </PaginationItem>
             {Array.from({ length: totalPages }, (_, index) => index + 1).map(
               (page) => (
-                <PaginationItem key={page}>
+                <PaginationItem key={page} className="hidden md:flex">
                   <PaginationLink
                     onClick={(e) => {
                       e.preventDefault();

@@ -680,3 +680,9 @@ export const PRODUCTS = [
     }
 
 ]
+
+export const CATEGORIES = {
+    Kids: ['Topwear', 'Bottomwear'],
+    Men: ['Topwear', 'Bottomwear', 'Winterwear'],
+    Women: ['Topwear', 'Bottomwear', 'Winterwear']
+  };

@@ -1,6 +1,4 @@
-import { Link } from "react-router-dom"
-import { Button } from "./ui/button"
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { useStore } from "@/store/context";
 
 
