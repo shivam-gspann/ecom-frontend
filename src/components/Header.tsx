@@ -7,7 +7,6 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import {
   Sheet,
   SheetClose,
@@ -17,8 +16,11 @@ import {
 } from "./ui/sheet";
 import { NAV_LINKS } from "@/utils/constants";
 import { useStore } from "@/store/context";
+import { Button } from "./ui/button";
 
 function Header() {
+  const isLoggedIn = sessionStorage.getItem("token");
+
   const navigate = useNavigate();
   const {cart} = useStore();
   console.log(cart);
@@ -27,18 +29,11 @@ function Header() {
     (acc, item) => acc + item.quantity,
     0
   );
-  // const [cartQuantity, setCartQuantity] = useState(0);
 
-  // useEffect(() => {
-  //   const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  //   const totalQuantity = savedCart.reduce(
-  //     (acc, item) => acc + item.quantity,
-  //     0
-  //   );
-
-  //   setCartQuantity(totalQuantity);
-  // }, []);
+  const logoutHandler = () => {
+    sessionStorage.removeItem("token"); 
+    navigate("/auth"); 
+  };
 
   return (
     <>
@@ -64,25 +59,28 @@ function Header() {
 
         {/* Menu Icons  */}
         <div className="flex items-center gap-6">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <User className="cursor-pointer" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem className="cursor-pointer">
-                My Profile
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => navigate("/orders")}
-                className="cursor-pointer"
-              >
-                Orders
-              </DropdownMenuItem>
-              <DropdownMenuItem className="focus:bg-red-200 cursor-pointer">
-                Logout
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+        {
+          isLoggedIn?          <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <User className="cursor-pointer" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem className="cursor-pointer">
+              My Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => navigate("/orders")}
+              className="cursor-pointer"
+            >
+              Orders
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={logoutHandler} className="focus:bg-red-200 cursor-pointer">
+              Logout
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>:<Button className="py-2 px-10" onClick={()=>navigate("/auth")}>Login</Button>
+        }
+
           <div className="relative">
             <ShoppingCart
               onClick={() => navigate("/cart")}
